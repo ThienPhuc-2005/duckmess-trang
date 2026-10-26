@@ -995,6 +995,11 @@ img {
     margin-left: auto;
   }
 }
+@media (min-width: 768px) and (max-width: 1180px) {
+  .hero-bg {
+    inset: 0 -28% 0 12%;
+  }
+}
 @media (max-width: 767px) {
   .hero {
     align-items: flex-start;
