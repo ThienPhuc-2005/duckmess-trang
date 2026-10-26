@@ -1,19 +1,21 @@
+/* Chính sách bảo mật / Điều khoản: cùng mặt nhôm và chữ với trang chủ (home.css) */
 :root {
-  color-scheme: dark;
-  --bg: #040a1c;
-  --fg: #e4ebf6;
-  --muted: #9fb0cf;
-  --link: #74e4ff;
+  color-scheme: light;
+  --bg: #c7cdd6;
+  --fg: #0d1734;
+  --muted: #4b5568;
+  --link: #0a2f9e;
 }
 body {
   margin: 0;
-  background: var(--bg);
+  background:
+    linear-gradient(rgba(241, 243, 246, 0.45), rgba(241, 243, 246, 0.45)),
+    url("assets/nhom.webp") center / cover fixed,
+    var(--bg);
   color: var(--fg);
   font:
-    16px/1.7 "Be Vietnam Pro",
+    17px/1.7 "Hanken Grotesk",
     system-ui,
-    "Segoe UI",
-    Roboto,
     sans-serif;
 }
 main {
@@ -21,19 +23,22 @@ main {
   margin: 0 auto;
   padding: 2rem 1rem 4rem;
 }
+h1,
+h2 {
+  font-family: Unbounded, "Hanken Grotesk", sans-serif;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+}
 h1 {
-  font-size: 1.9rem;
+  font-size: 1.8rem;
+  line-height: 1.2;
   margin: 0.5rem 0 1rem;
 }
 h2 {
-  font-size: 1.2rem;
-  margin-top: 2rem;
+  font-size: 1.15rem;
+  margin-top: 2.2rem;
 }
 a {
   color: var(--link);
-}
-.lead {
-  font-size: 1.1rem;
 }
 .en,
 .small {
@@ -43,28 +48,5 @@ a {
   font-size: 0.9rem;
 }
 code {
-  font-size: 0.92em;
-}
-nav {
-  margin-top: 2.5rem;
-}
-.download {
-  margin: 1.5rem 0 0.5rem;
-}
-.dl-btn {
-  display: inline-block;
-  padding: 0.7rem 1.4rem;
-  border-radius: 0.6rem;
-  background: var(--link);
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-}
-.dl-btn:hover {
-  filter: brightness(1.1);
-}
-@media (prefers-color-scheme: dark) {
-  .dl-btn {
-    color: #0b1a2b;
-  }
+  font-size: 0.88em;
 }
