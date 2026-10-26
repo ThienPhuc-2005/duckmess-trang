@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DuckMess</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>DuckMess 🦆</h1>
+      <p class="lead">
+        Ứng dụng chat riêng tư, mã hóa đầu-cuối, tự vận hành cho một nhóm nhỏ
+        bạn bè.<br />
+        <span class="en"
+          >A private, end-to-end encrypted, self-hosted chat app for a small
+          group of friends.</span
+        >
+      </p>
+
+      <h2>DuckMess là gì</h2>
+      <ul>
+        <li>
+          Tin nhắn, ảnh, video và tệp được mã hóa ngay trên máy người gửi
+          (libsodium). Máy chủ chuyển tiếp chỉ thấy dữ liệu đã mã hóa, không có
+          khóa để đọc.
+        </li>
+        <li>
+          Chỉ người được mời mới vào được. Không quảng cáo, không thu thập dữ
+          liệu, không bán dữ liệu.
+        </li>
+        <li>
+          Tệp đính kèm (đã mã hóa) có thể được lưu trong Google Drive của chính
+          chủ máy chủ, trong một thư mục do DuckMess tạo.
+        </li>
+      </ul>
+      <p class="en">
+        Messages, photos, videos and files are encrypted on the sender's device.
+        The relay server only handles encrypted data and never has the keys.
+        Access is invite-only. No ads, no tracking, no data sales. Encrypted
+        attachments may be stored in the server owner's own Google Drive, in a
+        folder created by DuckMess.
+      </p>
+
+      <h2>Quyền Google Drive</h2>
+      <p>
+        DuckMess chỉ xin quyền <code>drive.file</code>: chỉ thấy và sửa
+        <b>các tệp do chính DuckMess tạo</b>, không đọc được tệp nào khác trong
+        Drive.<br />
+        <span class="en"
+          >DuckMess only requests the <code>drive.file</code> scope: it can
+          access only the files it creates, and nothing else in your
+          Drive.</span
+        >
+      </p>
+
+      <nav>
+        <a href="privacy.html">Chính sách bảo mật / Privacy Policy</a> ·
+        <a href="terms.html">Điều khoản sử dụng / Terms of Service</a>
+      </nav>
+    </main>
+  </body>
+</html>

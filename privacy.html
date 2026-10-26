@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DuckMess — Chính sách bảo mật</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <p><a href="./">← DuckMess</a></p>
+      <h1>Chính sách bảo mật <span class="en">/ Privacy Policy</span></h1>
+      <p class="small">Cập nhật / Last updated: 26/10/2026</p>
+
+      <h2>
+        1. Dữ liệu chúng tôi xử lý <span class="en">/ Data we handle</span>
+      </h2>
+      <ul>
+        <li>
+          <b>Nội dung tin nhắn và tệp:</b> được mã hóa đầu-cuối trên máy người
+          gửi. Máy chủ chỉ lưu và chuyển tiếp bản đã mã hóa, không có khóa giải
+          mã, không đọc được nội dung hay tên tệp.
+        </li>
+        <li>
+          <b>Thông tin tài khoản:</b> khóa công khai, tên hiển thị, tên người
+          dùng do bạn chọn, vai trò trong nhóm, thời điểm gửi. Dùng để chuyển
+          tin tới đúng người.
+        </li>
+        <li>
+          <b>Địa chỉ IP:</b> chỉ dùng tạm thời để chống spam (giới hạn số kết
+          nối), không lưu lâu dài.
+        </li>
+      </ul>
+      <p class="en">
+        Message and file contents are end-to-end encrypted on the sender's
+        device; the server stores and relays only ciphertext and cannot read
+        contents or file names. The server keeps public keys, display names,
+        chosen usernames, group roles and timestamps to deliver messages. IP
+        addresses are used transiently for anti-abuse rate limiting and are not
+        stored long-term.
+      </p>
+
+      <h2>2. Google Drive <span class="en">/ Google user data</span></h2>
+      <ul>
+        <li>
+          DuckMess chỉ dùng quyền
+          <code>https://www.googleapis.com/auth/drive.file</code> trên Google
+          Drive của <b>chủ máy chủ</b> (người vận hành DuckMess), để tạo một thư
+          mục riêng và lưu các tệp đính kèm <b>đã mã hóa</b> vào đó.
+        </li>
+        <li>
+          DuckMess chỉ tạo, đọc, xóa các tệp do chính nó tạo; không truy cập tệp
+          nào khác trong Drive.
+        </li>
+        <li>
+          Dữ liệu từ Google không được chia sẻ, bán, hay dùng cho quảng cáo, và
+          không được dùng để huấn luyện mô hình AI.
+        </li>
+        <li>
+          Quyền truy cập Drive (refresh token) chỉ nằm trên máy chủ của chủ
+          DuckMess, quyền đọc giới hạn cho dịch vụ. Bạn có thể thu hồi bất cứ
+          lúc nào tại
+          <a href="https://myaccount.google.com/connections"
+            >myaccount.google.com/connections</a
+          >.
+        </li>
+      </ul>
+      <p class="en">
+        DuckMess uses only the <code>drive.file</code> scope, on the Google
+        Drive of the server owner, to create one folder and store encrypted
+        attachments in it. It creates, reads and deletes only files it created
+        and accesses no other Drive files. Google user data is not shared, sold,
+        used for advertising, or used to train AI models. The Drive
+        authorization stays on the owner's server and can be revoked at any time
+        at myaccount.google.com/connections. DuckMess's use of information
+        received from Google APIs adheres to the
+        <a
+          href="https://developers.google.com/terms/api-services-user-data-policy"
+          >Google API Services User Data Policy</a
+        >, including the Limited Use requirements.
+      </p>
+
+      <h2>
+        3. Lưu giữ và xóa <span class="en">/ Retention and deletion</span>
+      </h2>
+      <p>
+        Tệp đính kèm được giữ cho tới khi người gửi hoặc người nhận chọn "xóa
+        cho cả hai"; khi đó bản mã hóa bị xóa hẳn khỏi máy chủ và Google Drive.
+        Tin nhắn chờ chỉ nằm trên máy chủ cho tới khi được giao.<br />
+        <span class="en"
+          >Attachments are kept until the sender or recipient chooses "delete
+          for both"; the encrypted copy is then permanently deleted from the
+          server and Google Drive. Queued messages stay on the server only until
+          delivered.</span
+        >
+      </p>
+
+      <h2>4. Chia sẻ <span class="en">/ Sharing</span></h2>
+      <p>
+        Không chia sẻ dữ liệu với bên thứ ba, trừ khi pháp luật bắt buộc.<br />
+        <span class="en"
+          >We do not share data with third parties, except where required by
+          law.</span
+        >
+      </p>
+
+      <h2>5. Liên hệ <span class="en">/ Contact</span></h2>
+      <p>
+        <a href="https://github.com/ThienPhuc-2005"
+          >github.com/ThienPhuc-2005</a
+        >
+      </p>
+    </main>
+  </body>
+</html>
