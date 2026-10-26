@@ -55,3 +55,23 @@ code {
 nav {
   margin-top: 2.5rem;
 }
+.download {
+  margin: 1.5rem 0 0.5rem;
+}
+.dl-btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: 0.6rem;
+  background: var(--link);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.dl-btn:hover {
+  filter: brightness(1.1);
+}
+@media (prefers-color-scheme: dark) {
+  .dl-btn {
+    color: #0b1a2b;
+  }
+}
