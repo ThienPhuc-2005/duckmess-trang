@@ -1,24 +1,17 @@
 :root {
-  color-scheme: light dark;
-  --bg: #f6f9fc;
-  --fg: #1d2733;
-  --muted: #5b6b7d;
-  --link: #1a6fd1;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #11161d;
-    --fg: #e4ebf3;
-    --muted: #94a3b4;
-    --link: #6cb2ff;
-  }
+  color-scheme: dark;
+  --bg: #040a1c;
+  --fg: #e4ebf6;
+  --muted: #9fb0cf;
+  --link: #74e4ff;
 }
 body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
   font:
-    16px/1.6 system-ui,
+    16px/1.7 "Be Vietnam Pro",
+    system-ui,
     "Segoe UI",
     Roboto,
     sans-serif;
