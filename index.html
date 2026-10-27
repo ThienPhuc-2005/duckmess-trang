@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DuckMess — Chỗ trò chuyện riêng của nhóm bạn</title>
+    <title>DuckMess — Trò chuyện riêng tư</title>
     <meta
       name="description"
       content="DuckMess: ứng dụng chat riêng tư, mã hóa đầu-cuối, chỉ người được mời mới vào được. Tải miễn phí cho Windows."
     />
-    <meta name="theme-color" content="#c7cdd6" />
+    <meta name="theme-color" content="#040406" />
     <meta
       property="og:title"
-      content="DuckMess — Chỗ trò chuyện riêng của nhóm bạn"
+      content="DuckMess — Trò chuyện riêng tư"
     />
     <meta
       property="og:description"
@@ -29,81 +29,58 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400&family=Unbounded:wght@400;500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Xanh+Mono:ital@0;1&display=swap"
     />
-    <link rel="preload" as="fetch" href="assets/may.glb" crossorigin />
+    <link rel="preload" as="image" href="assets/canh.webp" />
     <link rel="stylesheet" href="home.css" />
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
-        }
-      }
-    </script>
   </head>
   <body>
-    <header class="top">
-      <a class="brand" href="./">
-        <img src="assets/logo.webp" alt="" width="34" height="24" />
-        DuckMess
-      </a>
-      <nav aria-label="Mục lục">
-        <a href="#ben-trong">Bên trong</a>
-        <a href="#duong-thu">Tin đi đường nào</a>
-        <a href="#lap-dat">Lắp đặt</a>
-        <a href="#hoi-dap">Hỏi đáp</a>
-      </nav>
-    </header>
+    <section class="hero">
+      <canvas class="ascii" aria-hidden="true"></canvas>
+
+      <header class="top">
+        <a class="brand" href="./">DuckMess</a>
+        <nav aria-label="Mục lục">
+          <a href="#ben-trong">Bên trong</a>
+          <a href="#duong-di">Đường đi</a>
+          <a href="#lap-dat">Lắp đặt</a>
+          <a href="#hoi-dap">Hỏi đáp</a>
+        </nav>
+      </header>
+
+      <p class="side side-l" aria-hidden="true">chỉ dành cho nhóm bạn</p>
+      <p class="side side-r" aria-hidden="true">mở ra rồi mới thấy</p>
+
+      <div class="hero-copy">
+        <h1>DuckMess<span>Trò chuyện riêng tư</span></h1>
+        <p class="lead">
+          Tin nhắn khóa ngay trên máy bạn. Chỉ người được mời mới vào được.
+          Không quảng cáo, không theo dõi.
+        </p>
+        <div class="actions">
+          <a
+            class="dl"
+            href="https://github.com/ThienPhuc-2005/duckmess-trang/releases/latest/download/DuckMess-Setup.exe"
+          >
+            Tải cho Windows
+          </a>
+          <a class="quiet" href="#lap-dat">Cách lắp đặt</a>
+        </div>
+        <p class="fine">
+          Bản 1.4.2, miễn phí, Windows 10 và 11 (64-bit), khoảng 128 MB.
+        </p>
+        <p class="not-windows" id="notWindows" hidden>
+          Bản cài chạy trên máy tính Windows. Mở trang này trên máy tính để tải,
+          hoặc
+          <button type="button" id="copyLink">sao chép link</button> để gửi
+          sang.
+        </p>
+      </div>
+    </section>
 
     <main>
-      <section class="hero">
-        <div class="hero-copy">
-          <h1>Chỗ trò chuyện riêng của nhóm bạn mình.</h1>
-          <p class="lead">
-            Tin nhắn được khóa ngay trên máy bạn, chỉ người được mời mới bước
-            vào được. Không quảng cáo, không theo dõi.
-          </p>
-          <div class="actions">
-            <a
-              class="key"
-              id="dl"
-              href="https://github.com/ThienPhuc-2005/duckmess-trang/releases/latest/download/DuckMess-Setup.exe"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M3 5.5 10.5 4.4v7.1H3zM11.5 4.3 21 3v8.5h-9.5zM3 12.5h7.5v7.1L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"
-                />
-              </svg>
-              Tải DuckMess cho Windows
-            </a>
-            <a class="quiet" href="#lap-dat">Cách lắp đặt</a>
-          </div>
-          <p class="fine">
-            Bản 1.4.2, miễn phí, cho Windows 10 và 11 (64-bit). Tệp cài khoảng
-            128 MB, tải thẳng từ GitHub.
-          </p>
-          <p class="not-windows" id="notWindows" hidden>
-            Bản cài chạy trên máy tính Windows. Mở trang này trên máy tính để
-            tải, hoặc
-            <button type="button" id="copyLink">sao chép link</button> để gửi
-            sang.
-          </p>
-        </div>
-        <figure class="may" aria-label="Máy DuckMess bằng nhôm, kéo để xoay">
-          <img
-            class="may-still"
-            src="assets/may.webp"
-            alt="Máy DuckMess vỏ nhôm, màn coban và logo hành tinh trên nắp"
-            width="1000"
-            height="1000"
-          />
-          <figcaption>Kéo để xoay</figcaption>
-        </figure>
-      </section>
-
-      <section class="manual" id="ben-trong">
-        <h2>Bên trong có gì</h2>
+      <section class="block" id="ben-trong">
+        <h2>Bên trong</h2>
         <dl class="spec">
           <div>
             <dt>Mã hóa đầu-cuối</dt>
@@ -128,42 +105,38 @@
           </div>
           <div>
             <dt>Tin tự hủy</dt>
-            <dd>
-              Bật lên là tin nhắn tự biến mất sau một lúc. Có những chuyện chỉ
-              nên nói một lần.
-            </dd>
+            <dd>Bật lên là tin nhắn tự biến mất sau một lúc.</dd>
           </div>
           <div>
             <dt>Gửi tệp</dt>
             <dd>Mỗi tệp tới 200 MB, được mã hóa trước khi rời khỏi máy.</dd>
           </div>
           <div>
-            <dt>Những thứ quen thuộc</dt>
+            <dt>Quen thuộc</dt>
             <dd>Đang gõ, đã xem, trả lời trích dẫn, sửa tin đã gửi.</dd>
           </div>
         </dl>
-        <p class="aside">Còn vài thứ nữa, nhưng phải mở nắp mới thấy.</p>
+        <p class="aside">Còn vài thứ nữa, nhưng phải mở ra mới thấy.</p>
       </section>
 
-      <section class="manual" id="duong-thu">
+      <section class="block" id="duong-di">
         <h2>Tin nhắn đi đường nào</h2>
         <p class="intro">
           Máy chủ chỉ là người đưa thư, và nó không có chìa khóa.
         </p>
         <ol class="route">
           <li>
-            <b>Máy bạn</b
+            <b>máy bạn</b
             ><span>Khóa tin nhắn bằng khóa chỉ bạn và người nhận có.</span>
           </li>
           <li>
-            <b>Máy chủ chuyển tiếp</b
+            <b>máy chủ</b
             ><span
-              >Giữ và chuyển gói đã khóa. Không đọc được nội dung hay tên
-              tệp.</span
+              >Chuyển gói đã khóa. Không đọc được nội dung hay tên tệp.</span
             >
           </li>
           <li>
-            <b>Máy bạn bè</b><span>Mở khóa và đọc, ngay trên máy của họ.</span>
+            <b>máy bạn bè</b><span>Mở khóa và đọc, ngay trên máy của họ.</span>
           </li>
         </ol>
         <div class="notes">
@@ -191,7 +164,7 @@
         </div>
       </section>
 
-      <section class="manual" id="lap-dat">
+      <section class="block" id="lap-dat">
         <h2>Lắp đặt</h2>
         <ol class="steps">
           <li>
@@ -200,7 +173,7 @@
             của DuckMess.
           </li>
           <li>
-            <b>Mở tệp.</b> Windows có thể hiện màn hình xanh như hình dưới, vì
+            <b>Mở tệp.</b> Windows có thể hiện màn hình xanh như bên dưới, vì
             DuckMess chưa có chữ ký số. Bấm <b>More info</b>, rồi
             <b>Run anyway</b>.
           </li>
@@ -230,14 +203,14 @@
           </p>
         </div>
         <p class="intro">
-          Cảnh báo này hiện với mọi ứng dụng mới chưa mua chứng chỉ ký số. Muốn
-          chắc tệp đúng là bản gốc, so mã SHA-256 trên tem ở cuối trang: mở
-          PowerShell trong thư mục Downloads và chạy
-          <code>Get-FileHash .\DuckMess-Setup.exe</code>.
+          Muốn chắc tệp đúng là bản gốc: mở PowerShell trong thư mục Downloads,
+          chạy
+          <code>Get-FileHash .\DuckMess-Setup.exe</code> và so với mã SHA-256 ở
+          cuối trang.
         </p>
       </section>
 
-      <section class="manual" id="hoi-dap">
+      <section class="block" id="hoi-dap">
         <h2>Hỏi đáp</h2>
         <div class="faq">
           <details>
@@ -275,73 +248,51 @@
         </div>
       </section>
 
-      <section class="label-wrap" aria-label="Tem thông số">
-        <div class="label">
-          <p class="label-head">
-            <img
-              src="assets/logo.webp"
-              alt=""
-              width="40"
-              height="28"
-              loading="lazy"
-            />
-            DuckMess
-          </p>
-          <table>
-            <tr>
-              <th>Phiên bản</th>
-              <td>1.4.2</td>
-            </tr>
-            <tr>
-              <th>Hệ điều hành</th>
-              <td>Windows 10, 11 (64-bit)</td>
-            </tr>
-            <tr>
-              <th>Tệp cài</th>
-              <td>DuckMess-Setup.exe, 128 MB</td>
-            </tr>
-            <tr>
-              <th>Mã hóa</th>
-              <td>Đầu-cuối, libsodium</td>
-            </tr>
-            <tr>
-              <th>SHA-256</th>
-              <td class="hash">
-                B2846846E20A6BB96BD2B69B41EE6E1E993818C47606924FFAABAC848DC7603B
-              </td>
-            </tr>
-            <tr>
-              <th>Nguồn tải</th>
-              <td>
-                <a
-                  href="https://github.com/ThienPhuc-2005/duckmess-trang/releases"
-                  >GitHub Releases</a
-                >
-              </td>
-            </tr>
-          </table>
-          <p class="label-foot">
-            <a href="privacy.html">Chính sách bảo mật / Privacy Policy</a>
-            <a href="terms.html">Điều khoản sử dụng / Terms of Service</a>
-          </p>
-        </div>
-        <a
-          class="key"
-          href="https://github.com/ThienPhuc-2005/duckmess-trang/releases/latest/download/DuckMess-Setup.exe"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M3 5.5 10.5 4.4v7.1H3zM11.5 4.3 21 3v8.5h-9.5zM3 12.5h7.5v7.1L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"
-            />
-          </svg>
-          Tải DuckMess cho Windows
-        </a>
+      <section class="block" id="thong-so">
+        <h2>Thông số</h2>
+        <table class="readout">
+          <tr>
+            <th>phiên bản</th>
+            <td>1.4.2</td>
+          </tr>
+          <tr>
+            <th>hệ điều hành</th>
+            <td>Windows 10, 11 (64-bit)</td>
+          </tr>
+          <tr>
+            <th>tệp cài</th>
+            <td>DuckMess-Setup.exe, 128 MB</td>
+          </tr>
+          <tr>
+            <th>mã hóa</th>
+            <td>đầu-cuối, libsodium</td>
+          </tr>
+          <tr>
+            <th>sha-256</th>
+            <td class="hash">
+              B2846846E20A6BB96BD2B69B41EE6E1E993818C47606924FFAABAC848DC7603B
+            </td>
+          </tr>
+          <tr>
+            <th>nguồn tải</th>
+            <td>
+              <a
+                href="https://github.com/ThienPhuc-2005/duckmess-trang/releases"
+                >GitHub Releases</a
+              >
+            </td>
+          </tr>
+        </table>
       </section>
     </main>
 
-    <footer class="foot">© 2026 DuckMess</footer>
+    <footer class="foot">
+      <span>© 2026 DuckMess</span>
+      <a href="privacy.html">Chính sách bảo mật / Privacy Policy</a>
+      <a href="terms.html">Điều khoản sử dụng / Terms of Service</a>
+    </footer>
 
-    <script type="module" src="may3d.js"></script>
+    <script src="ascii.js" defer></script>
     <script src="home.js" defer></script>
   </body>
 </html>
