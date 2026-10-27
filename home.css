@@ -1,5 +1,5 @@
 /* Trang chủ DuckMess: đôi cánh ASCII ở đầu trang (ascii.js), phần dưới là một cột chữ yên tĩnh trên nền đen.
-   Tiêu đề Xanh Mono, chữ thường JetBrains Mono. Lệch màu xanh lơ/hồng chỉ xuất hiện chỗ người xem tác động. */
+   Tiêu đề Cormorant Garamond (nét thanh như lông vũ), chữ thường Geist Mono. Lệch màu xanh lơ/hồng chỉ xuất hiện chỗ người xem tác động. */
 :root {
   --void: #040406;
   --bone: #eceaf4;
@@ -22,7 +22,7 @@ body {
   background: var(--void);
   color: var(--bone);
   font:
-    15.5px/1.75 "JetBrains Mono",
+    15.5px/1.75 "Geist Mono",
     ui-monospace,
     Consolas,
     monospace;
@@ -46,8 +46,8 @@ code {
 h1,
 h2 {
   margin: 0;
-  font-family: "Xanh Mono", "JetBrains Mono", monospace;
-  font-weight: 400;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
   text-wrap: balance;
 }
 
@@ -114,7 +114,7 @@ h2 {
 .brand {
   color: var(--bone);
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 .top nav {
@@ -124,25 +124,29 @@ h2 {
 .top nav a {
   color: var(--dim);
   text-decoration: none;
+  font-weight: 600;
 }
 .top nav a:hover {
   color: var(--bone);
 }
 
-/* chữ dọc xếp chồng ở hai mép, như dải chữ trong ảnh mẫu */
+/* chữ dọc ở hai mép, xoay nằm nghiêng (xếp chồng từng chữ thì quá dài, gãy thành hai cột và đè lên tiêu đề).
+   bên trái đặt cao hơn để nằm trên tiêu đề */
 .side {
   position: absolute;
   top: 50%;
   margin: 0;
   writing-mode: vertical-rl;
-  text-orientation: upright;
+  white-space: nowrap;
   letter-spacing: 0.18em;
   font-size: 0.8rem;
+  font-weight: 600;
   color: rgba(236, 234, 244, 0.55);
   transform: translateY(-50%);
   pointer-events: none;
 }
 .side-l {
+  top: 30%;
   left: calc(var(--gutter) * 0.45);
 }
 .side-r {
@@ -157,9 +161,9 @@ h2 {
   max-width: 1000px;
 }
 .hero h1 {
-  font-size: clamp(2.5rem, 5.6vw, 5rem);
+  font-size: clamp(3rem, 7vw, 6.4rem);
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   text-shadow:
     0 0 28px var(--void),
     0 0 8px var(--void);
@@ -168,21 +172,38 @@ h2 {
   display: block;
   margin-top: 0.12em;
   font-style: italic;
-  font-size: 0.5em;
+  font-size: 0.48em;
   color: var(--lilac);
 }
 .lead {
-  max-width: 44ch;
-  margin: 22px 0 28px;
+  max-width: 38ch;
+  margin: 22px 0 0;
   color: #c9c7d6;
+  font-weight: 600;
 }
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 24px;
+
+/* nút tải: giữa màn hình, ngay dưới hành tinh, trong khoảng tối giữa hai đầu cánh.
+   Ảnh cánh phủ kín kiểu cover nên chiều cao ảnh = max(chiều cao khung, rộng / 1.79);
+   mép trên khoảng tối nằm ở 70% chiều cao ảnh, tức lệch 20% so với giữa khung. */
+.hero-cta {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 0.2 * max(100%, 55.9vw));
+  width: max-content;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.hero-cta .fine {
+  text-shadow:
+    0 0 8px var(--void),
+    0 0 3px var(--void);
+}
+.hero-cta .quiet {
+  display: block;
+  margin-top: 6px;
 }
 .dl {
+  display: inline-block;
   padding: 14px 26px;
   background: var(--bone);
   color: var(--void);
@@ -205,9 +226,11 @@ h2 {
   color: var(--bone);
 }
 .fine {
-  margin: 18px 0 0;
+  margin: 14px 0 0;
+  line-height: 1.6;
   color: var(--dim);
   font-size: 0.82rem;
+  font-weight: 500;
 }
 .not-windows {
   margin: 12px 0 0;
@@ -238,7 +261,7 @@ h2 {
 .block > h2 {
   grid-row: 1 / span 6;
   padding-top: 22px;
-  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+  font-size: clamp(2rem, 3vw, 2.7rem);
   line-height: 1.1;
   border-top: 1px solid var(--rule);
 }
@@ -276,9 +299,9 @@ h2 {
 }
 .aside {
   margin: 24px 0 0;
-  font-family: "Xanh Mono", monospace;
+  font-family: "Cormorant Garamond", Georgia, serif;
   font-style: italic;
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   color: var(--lilac);
 }
 
@@ -462,6 +485,26 @@ h2 {
 }
 
 /* ---------- Màn hình hẹp ---------- */
+/* hẹp hơn 1200px thì khoảng tối dưới hành tinh không đủ chỗ cho nút mà không đụng khối tiêu đề:
+   xếp tiêu đề, mô tả, nút thành một cột ở góc dưới trái */
+@media (max-width: 1200px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 var(--gutter) clamp(36px, 8vh, 80px);
+  }
+  .hero-copy,
+  .hero-cta {
+    position: static;
+    transform: none;
+    text-align: left;
+  }
+  .hero-cta {
+    width: auto;
+    margin-top: 28px;
+  }
+}
 @media (max-width: 860px) {
   .top nav {
     display: none;
@@ -510,7 +553,7 @@ h2 {
     gap: 0;
   }
   .dl {
-    flex: 1 1 100%;
+    display: block;
     text-align: center;
   }
   .readout th {

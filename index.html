@@ -9,10 +9,7 @@
       content="DuckMess: ứng dụng chat riêng tư, mã hóa đầu-cuối, chỉ người được mời mới vào được. Tải miễn phí cho Windows."
     />
     <meta name="theme-color" content="#040406" />
-    <meta
-      property="og:title"
-      content="DuckMess — Trò chuyện riêng tư"
-    />
+    <meta property="og:title" content="DuckMess — Trò chuyện riêng tư" />
     <meta
       property="og:description"
       content="Mã hóa đầu-cuối, chỉ người được mời, không quảng cáo. Tải miễn phí cho Windows."
@@ -29,10 +26,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Xanh+Mono:ital@0;1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Geist+Mono:wght@400..700&display=swap"
     />
     <link rel="preload" as="image" href="assets/canh.webp" />
-    <link rel="stylesheet" href="home.css?v=6" />
+    <link rel="stylesheet" href="home.css?v=12" />
   </head>
   <body>
     <section class="hero">
@@ -57,17 +54,20 @@
           Tin nhắn khóa ngay trên máy bạn. Chỉ người được mời mới vào được.
           Không quảng cáo, không theo dõi.
         </p>
-        <div class="actions">
-          <a
-            class="dl"
-            href="https://github.com/ThienPhuc-2005/duckmess-trang/releases/latest/download/DuckMess-Setup.exe"
-          >
-            Tải cho Windows
-          </a>
-          <a class="quiet" href="#lap-dat">Cách lắp đặt</a>
-        </div>
+      </div>
+
+      <!-- nút tải nằm trong khoảng tối ngay dưới hành tinh, giữa hai đầu cánh -->
+      <div class="hero-cta">
+        <a
+          class="dl"
+          href="https://github.com/ThienPhuc-2005/duckmess-trang/releases/latest/download/DuckMess-Setup.exe"
+        >
+          Tải cho Windows
+        </a>
         <p class="fine">
-          Bản 1.4.2, miễn phí, Windows 10 và 11 (64-bit), khoảng 128 MB.
+          Bản 1.4.2, miễn phí, khoảng 128 MB<br />
+          Windows 10 và 11 (64-bit).
+          <a class="quiet" href="#lap-dat">Cách lắp đặt</a>
         </p>
         <p class="not-windows" id="notWindows" hidden>
           Bản cài chạy trên máy tính Windows. Mở trang này trên máy tính để tải,
@@ -292,7 +292,7 @@
       <a href="terms.html">Điều khoản sử dụng / Terms of Service</a>
     </footer>
 
-    <script src="ascii.js?v=6" defer></script>
+    <script src="ascii.js?v=10" defer></script>
     <script src="home.js?v=6" defer></script>
   </body>
 </html>

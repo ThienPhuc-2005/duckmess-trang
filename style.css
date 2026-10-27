@@ -11,7 +11,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font:
-    15px/1.75 "JetBrains Mono",
+    15px/1.75 "Geist Mono",
     ui-monospace,
     Consolas,
     monospace;
@@ -23,16 +23,16 @@ main {
 }
 h1,
 h2 {
-  font-family: "Xanh Mono", "JetBrains Mono", monospace;
-  font-weight: 400;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
 }
 h1 {
-  font-size: 2rem;
+  font-size: 2.4rem;
   line-height: 1.15;
   margin: 0.5rem 0 1rem;
 }
 h2 {
-  font-size: 1.35rem;
+  font-size: 1.6rem;
   margin-top: 2.2rem;
 }
 a {

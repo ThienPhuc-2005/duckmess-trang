@@ -1,6 +1,8 @@
-// Đôi cánh ASCII ở đầu trang (assets/canh.webp), vẽ bằng WebGL2.
-// Lúc yên: mỗi ô là một ký tự theo độ sáng ảnh, mờ. Chuột/ngón tay đi tới đâu, "vệt nhiệt" ở đó làm ký tự nổi lên:
-// to ra, sáng lên, đặc hơn, xáo trộn, tách màu RGB, rồi chìm dần. Chỉ vẽ khi vệt còn nóng; đứng yên thì không vẽ.
+// Đôi cánh ASCII ở đầu trang, vẽ bằng WebGL2. Nguồn hình là video lặp vòng assets/canh.mp4 (cánh vỗ mượt, lông bay, hành tinh xoay;
+// tạo bằng Higgsfield Seedance 2.0 từ chính ảnh canh.webp làm khung đầu và khung cuối). Video chưa phát được, không tự
+// phát được (vd. chế độ tiết kiệm pin) hoặc người dùng bật "giảm chuyển động" → dùng ảnh tĩnh assets/canh.webp.
+// Lúc yên: mỗi ô là một ký tự theo độ sáng hình, mờ. Chuột/ngón tay đi tới đâu, "vệt nhiệt" ở đó làm ký tự nổi lên:
+// to ra, sáng lên, đặc hơn, xáo trộn, tách màu RGB, rồi chìm dần. Cuộn khỏi đầu trang thì video tạm dừng, thôi vẽ.
 // Không có WebGL2 → để nguyên ảnh nền CSS của .hero.
 // khung .ascii do CSS định cỡ; canvas bên trong luôn 100% khung → đo khung, không đo canvas (tránh canvas tự phình)
 const box = document.querySelector(".ascii");
@@ -14,7 +16,7 @@ const G = 64; // cỡ mỗi ký tự trong atlas (px)
 if (gl) {
   Promise.all([
     loadImage("assets/canh.webp"),
-    document.fonts.load(`${G}px "JetBrains Mono"`),
+    document.fonts.load(`${G}px "Geist Mono"`),
   ]).then(([img]) => start(img));
 }
 
@@ -111,7 +113,7 @@ function start(img) {
   atlas.height = G;
   const a = atlas.getContext("2d");
   a.fillStyle = "#fff";
-  a.font = `${Math.round(G * 0.8)}px "JetBrains Mono"`;
+  a.font = `${Math.round(G * 0.8)}px "Geist Mono"`;
   a.textAlign = "center";
   a.textBaseline = "middle";
   [...RAMP].forEach((ch, i) => a.fillText(ch, i * G + G / 2, G / 2 + G * 0.04));
@@ -131,7 +133,7 @@ function start(img) {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
     return t;
   };
-  tex(0, img, gl.LINEAR);
+  const imgTex = tex(0, img, gl.LINEAR);
   tex(1, atlas, gl.LINEAR);
   const heatTex = tex(2, heat, gl.LINEAR);
   gl.uniform1i(U("uImg"), 0);
@@ -167,7 +169,15 @@ function start(img) {
     pending = [],
     lastInput = -1e9,
     running = false,
+    hot = false, // vệt nhiệt còn nóng
+    visible = true, // đầu trang còn trong màn hình (cuộn xuống thì dừng video cho đỡ tốn máy)
     tick = 0;
+  function wake() {
+    if (!running) {
+      running = true;
+      requestAnimationFrame(frame);
+    }
+  }
   function heatAt(x, y) {
     const rad = Math.max(7, cols / 22);
     const gr = h.createRadialGradient(x, y, 0, x, y, rad);
@@ -194,10 +204,8 @@ function start(img) {
     } else pending.push(p);
     last = p;
     lastInput = performance.now();
-    if (!running) {
-      running = true;
-      requestAnimationFrame(frame);
-    }
+    hot = true;
+    wake();
   }
 
   function draw() {
@@ -209,24 +217,31 @@ function start(img) {
   }
 
   function frame(now) {
-    // chìm dần: phủ đen mỏng lên vệt nhiệt
-    h.globalCompositeOperation = "source-over";
-    h.fillStyle = "rgba(0,0,0,0.045)";
-    h.fillRect(0, 0, cols, rows);
-    h.globalCompositeOperation = "lighter";
-    for (const p of pending) heatAt(p.x, p.y);
-    pending = [];
+    if (hot) {
+      // chìm dần: phủ đen mỏng lên vệt nhiệt
+      h.globalCompositeOperation = "source-over";
+      h.fillStyle = "rgba(0,0,0,0.045)";
+      h.fillRect(0, 0, cols, rows);
+      h.globalCompositeOperation = "lighter";
+      for (const p of pending) heatAt(p.x, p.y);
+      pending = [];
+      if (now - lastInput > 2600) {
+        // vệt đã nguội hẳn: xóa sạch (8 bit không tự về 0)
+        h.clearRect(0, 0, cols, rows);
+        last = null;
+        hot = false;
+      }
+    }
     if (Math.floor(now / 70) !== tick) tick = Math.floor(now / 70); // xáo ký tự ~14 lần/giây
-    if (now - lastInput > 2600) {
-      // vệt đã nguội hẳn: xóa sạch (8 bit không tự về 0), vẽ khung cuối rồi nghỉ
-      h.clearRect(0, 0, cols, rows);
-      last = null;
-      draw();
-      running = false;
-      return;
+    if (video && video.readyState >= 2) {
+      // chép khung hình hiện tại của video vào chỗ ảnh tĩnh
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, imgTex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
     }
     draw();
-    requestAnimationFrame(frame);
+    if (hot || (video && visible)) requestAnimationFrame(frame);
+    else running = false;
   }
 
   addEventListener("pointermove", (e) => poke(e.clientX, e.clientY), {
@@ -236,6 +251,32 @@ function start(img) {
   new ResizeObserver(resize).observe(box);
   resize();
   hero.classList.add("is-ascii");
+
+  // video: phát được thì thay ảnh tĩnh (khung đầu của video chính là ảnh đó nên lúc đổi không bị giật)
+  let video = null;
+  if (!reduced) {
+    const v = document.createElement("video");
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.preload = "auto";
+    v.src = "assets/canh.mp4?v=2"; // đổi số khi thay video, để trình duyệt không dùng bản cũ đã lưu
+    v.addEventListener("playing", () => {
+      if (video) return;
+      video = v;
+      gl.uniform2f(U("uImgSize"), v.videoWidth, v.videoHeight);
+      wake();
+    });
+    v.play().catch(() => {});
+  }
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    if (!video) return;
+    if (visible) {
+      video.play().catch(() => {});
+      wake();
+    } else video.pause();
+  }).observe(hero);
 
   // một lần lúc mở trang: vệt lướt qua đôi cánh, để ai cũng thấy ký tự nổi lên (cả điện thoại không có chuột)
   if (!reduced) {
