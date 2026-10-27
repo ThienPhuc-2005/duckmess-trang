@@ -1,4 +1,4 @@
-// Đôi cánh ASCII ở đầu trang, vẽ bằng WebGL2. Nguồn hình là video lặp vòng assets/canh.mp4 (cánh vỗ mượt, lông bay, hành tinh xoay;
+// Đôi cánh ASCII ở đầu trang, vẽ bằng WebGL2. Nguồn hình là video: màn chào canh-chao.mp4 rồi vòng lặp canh.mp4 (cánh vỗ mượt, lông bay, hành tinh xoay;
 // tạo bằng Higgsfield Seedance 2.0 từ chính ảnh canh.webp làm khung đầu và khung cuối). Video chưa phát được, không tự
 // phát được (vd. chế độ tiết kiệm pin) hoặc người dùng bật "giảm chuyển động" → dùng ảnh tĩnh assets/canh.webp.
 // Lúc yên: mỗi ô là một ký tự theo độ sáng hình, mờ. Chuột/ngón tay đi tới đâu, "vệt nhiệt" ở đó làm ký tự nổi lên:
@@ -252,45 +252,59 @@ function start(img) {
   resize();
   hero.classList.add("is-ascii");
 
-  // video: phát được thì thay ảnh tĩnh (khung đầu của video chính là ảnh đó nên lúc đổi không bị giật)
+  // video: màn chào assets/canh-chao.mp4 (vỗ cánh, xoay một vòng, cánh cuộn xoắn rồi búng ra; chạy một lần lúc mở trang)
+  // rồi sang vòng lặp vỗ cánh assets/canh.mp4. Khung đầu/cuối của cả hai đều là ảnh canh.webp nên lúc đổi không bị giật.
+  // Đổi số ?v= khi thay video, để trình duyệt không dùng bản cũ đã lưu.
   let video = null;
-  if (!reduced) {
+  function makeVideo(src, loop) {
     const v = document.createElement("video");
     v.muted = true;
-    v.loop = true;
+    v.loop = loop;
     v.playsInline = true;
     v.preload = "auto";
-    v.src = "assets/canh.mp4?v=2"; // đổi số khi thay video, để trình duyệt không dùng bản cũ đã lưu
-    v.addEventListener("playing", () => {
-      if (video) return;
-      video = v;
-      gl.uniform2f(U("uImgSize"), v.videoWidth, v.videoHeight);
-      wake();
-    });
-    v.play().catch(() => {});
+    v.src = src;
+    return v;
+  }
+  function show(v) {
+    video = v;
+    gl.uniform2f(U("uImgSize"), v.videoWidth, v.videoHeight);
+    wake();
+  }
+  if (!reduced) {
+    const loopV = makeVideo("assets/canh.mp4?v=2", true);
+    const intro = makeVideo("assets/canh-chao.mp4?v=1", false);
+    let looping = false;
+    const toLoop = () => {
+      if (looping) return;
+      looping = true;
+      // vòng lặp không phát được thì giữ khung cuối của màn chào (chính là ảnh tĩnh)
+      loopV.play().then(() => show(loopV), () => (video = null));
+      setTimeout(() => requestAnimationFrame(sweep), 350);
+    };
+    intro.addEventListener("playing", () => video || show(intro), { once: true });
+    intro.addEventListener("ended", toLoop);
+    intro.addEventListener("error", toLoop);
+    intro.play().catch(toLoop);
   }
   new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
-    if (!video) return;
+    if (!video || video.ended) return;
     if (visible) {
       video.play().catch(() => {});
       wake();
     } else video.pause();
   }).observe(hero);
 
-  // một lần lúc mở trang: vệt lướt qua đôi cánh, để ai cũng thấy ký tự nổi lên (cả điện thoại không có chuột)
-  if (!reduced) {
-    const t0 = performance.now(),
-      dur = 1700;
-    const sweep = (now) => {
-      const k = Math.min((now - t0) / dur, 1);
-      const r = box.getBoundingClientRect();
-      const x = r.left + r.width * (0.08 + 0.84 * k);
-      const y = r.top + r.height * (0.42 - 0.16 * Math.sin(k * Math.PI));
-      poke(x, y);
-      if (k < 1) requestAnimationFrame(sweep);
-      else last = null;
-    };
-    setTimeout(() => requestAnimationFrame(sweep), 350);
+  // sau màn chào: vệt lướt qua đôi cánh một lần, để ai cũng thấy ký tự nổi lên (cả điện thoại không có chuột)
+  let t0 = 0;
+  function sweep(now) {
+    if (!t0) t0 = now;
+    const k = Math.min((now - t0) / 1700, 1);
+    const r = box.getBoundingClientRect();
+    const x = r.left + r.width * (0.08 + 0.84 * k);
+    const y = r.top + r.height * (0.42 - 0.16 * Math.sin(k * Math.PI));
+    poke(x, y);
+    if (k < 1) requestAnimationFrame(sweep);
+    else last = null;
   }
 }
