@@ -226,7 +226,7 @@ h2 {
   margin: 0;
   aspect-ratio: 1 / 1;
   width: 100%;
-  max-width: 760px;
+  max-width: 560px;
   justify-self: center;
 }
 .may::before {
@@ -571,8 +571,8 @@ h2 {
   }
   .may {
     order: -1;
-    max-width: 440px;
-    margin: -20px auto -40px;
+    max-width: 320px;
+    margin: 0 auto -24px;
   }
   .manual {
     grid-template-columns: 1fr;

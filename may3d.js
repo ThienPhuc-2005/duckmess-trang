@@ -1,6 +1,7 @@
-// Máy DuckMess 3D trên mặt nhôm: mô hình assets/may.glb (Higgsfield → Tripo, nén meshopt + webp).
-// Một khoảnh khắc lúc mở trang: máy xoay vào chỗ; sau đó nghiêng theo con trỏ, kéo để xoay, thả ra thì trôi về.
-// Không có WebGL → giữ ảnh tĩnh assets/may.webp có sẵn trong HTML; giảm chuyển động → máy đứng yên, vẫn kéo xoay được.
+// Máy DuckMess 3D trên mặt nhôm: mô hình assets/may.glb (Higgsfield → Tripo, làm mượt Taubin, nén meshopt + webp).
+// Chuyển động duy nhất tự chạy: lúc mở trang máy xoay vào chỗ. Sau đó máy đứng yên, chỉ xoay khi người xem kéo;
+// thả tay thì trôi chậm lại rồi dừng tại chỗ. Chỉ vẽ lại khi có chuyển động, đứng yên thì không tốn máy.
+// Không có WebGL → giữ ảnh tĩnh assets/may.webp có sẵn trong HTML.
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
@@ -8,41 +9,88 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 const stage = document.querySelector(".may");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const REST_Y = -0.7; // tư thế 3/4 như ảnh sản phẩm: màn coban trên trái, logo bên phải
+const REST_X = 0.42;
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true,
+    powerPreference: "high-performance",
+  });
+} catch {
+  renderer = null; // không có WebGL: để nguyên ảnh tĩnh
+}
+if (renderer) start();
 
 function start() {
-  const canvas = document.createElement("canvas");
-  let renderer;
-  try {
-    renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      alpha: true,
-      powerPreference: "high-performance",
-    });
-  } catch {
-    return; // không có WebGL: để nguyên ảnh tĩnh
-  }
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+  const canvas = renderer.domElement;
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
-  // ánh coban hắt từ dưới lên như trong intro, đèn chính trắng lạnh từ trên trái
-  const key = new THREE.DirectionalLight(0xffffff, 1.6);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  const key = new THREE.DirectionalLight(0xffffff, 1.4);
   key.position.set(-2, 3, 2);
-  const rim = new THREE.DirectionalLight(0x6f9bff, 1.2);
+  const rim = new THREE.DirectionalLight(0x7aa2ff, 0.9);
   rim.position.set(2.5, -0.5, -2);
   scene.add(key, rim);
 
-  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
-  camera.position.set(0, 1.55, 2.35);
-  camera.lookAt(0, 0, 0);
+  const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
+  camera.position.set(0, 1.5, 2.45);
+  camera.lookAt(0, -0.02, 0);
 
   const pivot = new THREE.Group();
   scene.add(pivot);
+
+  // góc hiện tại đuổi theo góc đích → kéo mượt, không giật theo từng sự kiện chuột
+  const target = {
+    y: REST_Y - (reduced ? 0 : 2.2),
+    x: REST_X + (reduced ? 0 : 0.7),
+  };
+  const cur = { y: target.y, x: target.x };
+  let vel = 0,
+    dragging = false,
+    lastX = 0,
+    lastY = 0,
+    running = false;
+
+  function resize() {
+    const r = stage.getBoundingClientRect();
+    renderer.setSize(r.width, r.height, false);
+    camera.aspect = r.width / r.height;
+    camera.updateProjectionMatrix();
+    wake();
+  }
+
+  function wake() {
+    if (!running && pivot.children.length) {
+      running = true;
+      requestAnimationFrame(frame);
+    }
+  }
+
+  function frame() {
+    if (!dragging && Math.abs(vel) > 0.0001) {
+      target.y += vel;
+      vel *= 0.92;
+    }
+    const k = dragging ? 0.35 : 0.12;
+    cur.y += (target.y - cur.y) * k;
+    cur.x += (target.x - cur.x) * k;
+    pivot.rotation.set(cur.x, cur.y, 0);
+    renderer.render(scene, camera);
+    const moving =
+      dragging ||
+      Math.abs(vel) > 0.0001 ||
+      Math.abs(target.y - cur.y) > 0.0005 ||
+      Math.abs(target.x - cur.x) > 0.0005;
+    if (moving) requestAnimationFrame(frame);
+    else running = false;
+  }
 
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
@@ -51,50 +99,38 @@ function start() {
     const box = new THREE.Box3().setFromObject(model);
     const size = box.getSize(new THREE.Vector3());
     model.position.sub(box.getCenter(new THREE.Vector3()));
-    model.scale.setScalar(1.25 / Math.max(size.x, size.z));
-    model.traverse((o) => {
-      if (o.isMesh && o.material) o.material.envMapIntensity = 1.15;
-    });
+    model.scale.setScalar(1.05 / Math.max(size.x, size.z));
     pivot.add(model);
     stage.appendChild(canvas);
-    resize();
     stage.classList.add("is-3d");
-    requestAnimationFrame(tick);
+    resize();
+    // xoay vào chỗ: đặt góc đích về tư thế nghỉ, phần đuổi theo tạo chuyển động chậm dần
+    target.y = REST_Y;
+    target.x = REST_X;
+    wake();
   });
-
-  function resize() {
-    const r = stage.getBoundingClientRect();
-    renderer.setSize(r.width, r.height, false);
-    camera.aspect = r.width / r.height;
-    camera.updateProjectionMatrix();
-  }
   new ResizeObserver(resize).observe(stage);
 
-  // con trỏ trên cả trang → máy nghiêng nhẹ về phía đó; kéo trên máy → xoay quanh trục đứng
-  let aimX = 0,
-    aimY = 0,
-    spin = 0,
-    spinV = 0,
-    dragging = false,
-    lastX = 0;
-  addEventListener(
-    "pointermove",
-    (e) => {
-      aimX = (e.clientX / innerWidth) * 2 - 1;
-      aimY = (e.clientY / innerHeight) * 2 - 1;
-      if (dragging) {
-        spinV = (e.clientX - lastX) * 0.012;
-        spin += spinV;
-        lastX = e.clientX;
-      }
-    },
-    { passive: true },
-  );
   canvas.addEventListener("pointerdown", (e) => {
     dragging = true;
+    vel = 0;
     lastX = e.clientX;
+    lastY = e.clientY;
     canvas.setPointerCapture(e.pointerId);
     stage.classList.add("dragging");
+    wake();
+  });
+  canvas.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const dx = (e.clientX - lastX) * 0.009;
+    target.y += dx;
+    target.x = Math.min(
+      0.9,
+      Math.max(-0.1, target.x + (e.clientY - lastY) * 0.006),
+    );
+    vel = dx * 0.6;
+    lastX = e.clientX;
+    lastY = e.clientY;
   });
   const release = () => {
     dragging = false;
@@ -102,33 +138,4 @@ function start() {
   };
   canvas.addEventListener("pointerup", release);
   canvas.addEventListener("pointercancel", release);
-
-  // chỉ vẽ khi máy đang trong tầm nhìn
-  let visible = true;
-  new IntersectionObserver(([e]) => {
-    visible = e.isIntersecting;
-    if (visible) requestAnimationFrame(tick);
-  }).observe(stage);
-
-  const t0 = performance.now();
-  const ease = (x) => 1 - Math.pow(1 - x, 4);
-  function tick(now) {
-    if (!visible) return;
-    const t = (now - t0) / 1000;
-    // vào chỗ: từ nghiêng ngửa + lệch nửa vòng xoay về tư thế 3/4 trong 1,8 giây
-    const k = reduced ? 1 : ease(Math.min(t / 1.8, 1));
-    if (!dragging) {
-      spinV *= 0.94;
-      spin += spinV;
-      spin *= 0.965; // thả ra thì trôi dần về hướng ban đầu
-    }
-    const idle = reduced ? 0 : Math.sin(t * 0.6) * 0.04;
-    pivot.rotation.y = (1 - k) * -2.4 + -0.55 + aimX * 0.32 + spin + idle;
-    pivot.rotation.x = (1 - k) * 0.9 + aimY * 0.14;
-    pivot.position.y = (1 - k) * -0.35 + Math.sin(t * 0.9) * 0.012;
-    renderer.render(scene, camera);
-    requestAnimationFrame(tick);
-  }
 }
-
-start();
