@@ -2,7 +2,9 @@
 // Lúc yên: mỗi ô là một ký tự theo độ sáng ảnh, mờ. Chuột/ngón tay đi tới đâu, "vệt nhiệt" ở đó làm ký tự nổi lên:
 // to ra, sáng lên, đặc hơn, xáo trộn, tách màu RGB, rồi chìm dần. Chỉ vẽ khi vệt còn nóng; đứng yên thì không vẽ.
 // Không có WebGL2 → để nguyên ảnh nền CSS của .hero.
-const canvas = document.querySelector(".ascii");
+// khung .ascii do CSS định cỡ; canvas bên trong luôn 100% khung → đo khung, không đo canvas (tránh canvas tự phình)
+const box = document.querySelector(".ascii");
+const canvas = box.querySelector("canvas");
 const hero = document.querySelector(".hero");
 const gl = canvas.getContext("webgl2", { antialias: false, alpha: false });
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -143,8 +145,9 @@ function start(img) {
     cols = 1,
     rows = 1;
   function resize() {
-    const r = canvas.getBoundingClientRect();
-    dpr = Math.min(devicePixelRatio || 1, 1.5);
+    const r = box.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return; // khung chưa có cỡ (CSS chưa tải): chờ lần đo sau
+    dpr = Math.min(devicePixelRatio || 1, 1.5, 4096 / r.width, 4096 / r.height);
     cellCss = r.width < 700 ? 7 : 9;
     canvas.width = Math.round(r.width * dpr);
     canvas.height = Math.round(r.height * dpr);
@@ -174,7 +177,7 @@ function start(img) {
     h.fillRect(x - rad, y - rad, rad * 2, rad * 2);
   }
   function poke(clientX, clientY) {
-    const r = canvas.getBoundingClientRect();
+    const r = box.getBoundingClientRect();
     if (clientY < r.top || clientY > r.bottom) return;
     const p = {
       x: (clientX - r.left) / cellCss,
@@ -230,7 +233,7 @@ function start(img) {
     passive: true,
   });
   addEventListener("pointerleave", () => (last = null));
-  new ResizeObserver(resize).observe(canvas);
+  new ResizeObserver(resize).observe(box);
   resize();
   hero.classList.add("is-ascii");
 
@@ -240,7 +243,7 @@ function start(img) {
       dur = 1700;
     const sweep = (now) => {
       const k = Math.min((now - t0) / dur, 1);
-      const r = canvas.getBoundingClientRect();
+      const r = box.getBoundingClientRect();
       const x = r.left + r.width * (0.08 + 0.84 * k);
       const y = r.top + r.height * (0.42 - 0.16 * Math.sin(k * Math.PI));
       poke(x, y);

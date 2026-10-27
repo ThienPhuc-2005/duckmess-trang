@@ -78,6 +78,11 @@ h2 {
   width: 100%;
   height: 100%;
 }
+.ascii canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .hero::after {
   /* góc dưới trái tối lại để tiêu đề đọc rõ trên ký tự */
   content: "";
