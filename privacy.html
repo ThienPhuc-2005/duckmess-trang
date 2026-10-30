@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DuckMess — Chính sách bảo mật</title>
     <link rel="icon" href="favicon.png" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Geist+Mono:wght@400..700&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Geist+Mono:wght@400..700&display=swap"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <main>
       <p><a href="./">← DuckMess</a></p>
       <h1>Chính sách bảo mật <span class="en">/ Privacy Policy</span></h1>
-      <p class="small">Cập nhật / Last updated: 26/10/2026</p>
+      <p class="small">Cập nhật / Last updated: 29/10/2026</p>
 
       <h2>
         1. Dữ liệu chúng tôi xử lý <span class="en">/ Data we handle</span>
@@ -32,6 +35,31 @@
           <b>Địa chỉ IP:</b> chỉ dùng tạm thời để chống spam (giới hạn số kết
           nối), không lưu lâu dài.
         </li>
+        <li>
+          <b>Trạng thái giao tin:</b> máy chủ biết tin đã được giao tới máy
+          người nhận hay chưa, để giữ tin cho tới khi giao xong.
+        </li>
+        <li>
+          <b>Chặn và ẩn trạng thái online:</b> máy chủ lưu danh sách người bạn
+          chặn và việc bạn có bật ẩn online hay không, để không báo online và
+          không chuyển cuộc gọi giữa hai người đã chặn nhau.
+        </li>
+        <li>
+          <b>Sao lưu lịch sử chat (khi bạn đã tạo Sao lưu khóa):</b> lịch sử
+          được mã hóa trên máy bạn rồi mới tải lên; máy chủ và Google Drive của
+          chủ máy chủ giữ tối đa 2 bản đã mã hóa. Máy chủ biết bản sao lưu là
+          của bạn và dung lượng gần đúng, không đọc được nội dung. Tin có hẹn
+          giờ tự hủy không được sao lưu. Bạn tắt được trong Cài đặt › Lưu trữ.
+        </li>
+        <li>
+          <b>Gọi thoại / video:</b> âm thanh và hình đi thẳng giữa hai máy, được
+          mã hóa. Để tìm đường kết nối, app hỏi máy chủ STUN của Cloudflare và
+          Google; các máy chủ này và người bên kia thấy địa chỉ IP của bạn. Tùy
+          chọn <b>Giấu IP</b> (khi máy chủ DuckMess đã bật) chuyển cuộc gọi qua
+          máy chủ TURN của Cloudflare: Cloudflare thấy IP, giờ gọi và lượng dữ
+          liệu, người bên kia không thấy IP của bạn. Tín hiệu bắt đầu cuộc gọi
+          đi qua máy chủ DuckMess như tin nhắn.
+        </li>
       </ul>
       <p class="en">
         Message and file contents are end-to-end encrypted on the sender's
@@ -39,7 +67,16 @@
         contents or file names. The server keeps public keys, display names,
         chosen usernames, group roles and timestamps to deliver messages. IP
         addresses are used transiently for anti-abuse rate limiting and are not
-        stored long-term.
+        stored long-term. The server knows whether a message has been delivered,
+        and stores your block list and whether you hide your online status. If
+        you have set up key backup, your chat history is encrypted on your
+        device before upload; the server and the owner's Google Drive keep at
+        most two encrypted copies, and the server knows which backup is yours
+        and its approximate size. Voice and video calls go directly between
+        devices and are encrypted; STUN servers of Cloudflare and Google and the
+        other party see your IP address. With "Hide IP" (when enabled on the
+        server) calls go through Cloudflare TURN, which sees your IP, call time
+        and data volume, while the other party does not.
       </p>
 
       <h2>2. Google Drive <span class="en">/ Google user data</span></h2>
@@ -88,21 +125,29 @@
       <p>
         Tệp đính kèm được giữ cho tới khi người gửi hoặc người nhận chọn "xóa
         cho cả hai"; khi đó bản mã hóa bị xóa hẳn khỏi máy chủ và Google Drive.
-        Tin nhắn chờ chỉ nằm trên máy chủ cho tới khi được giao.<br />
+        Tin nhắn chờ chỉ nằm trên máy chủ cho tới khi được giao. Bản sao lưu
+        lịch sử cũ bị xóa khi có bản mới thay; danh sách chặn bị xóa khi bạn bỏ
+        chặn. Khi bạn bị xóa khỏi máy chủ, bản sao lưu và danh sách chặn của bạn
+        bị xóa theo.<br />
         <span class="en"
           >Attachments are kept until the sender or recipient chooses "delete
           for both"; the encrypted copy is then permanently deleted from the
           server and Google Drive. Queued messages stay on the server only until
-          delivered.</span
+          delivered. Older history backups are deleted once replaced; block
+          entries are deleted when you unblock. When your membership is removed,
+          your backups and block list are deleted too.</span
         >
       </p>
 
       <h2>4. Chia sẻ <span class="en">/ Sharing</span></h2>
       <p>
-        Không chia sẻ dữ liệu với bên thứ ba, trừ khi pháp luật bắt buộc.<br />
+        Không chia sẻ dữ liệu với bên thứ ba, trừ khi pháp luật bắt buộc. Ngoại
+        lệ duy nhất là khi gọi điện: máy chủ STUN/TURN của Cloudflare và Google
+        thấy địa chỉ IP như mô tả ở mục 1.<br />
         <span class="en"
           >We do not share data with third parties, except where required by
-          law.</span
+          law. The only exception is calls: Cloudflare and Google STUN/TURN
+          servers see your IP address as described in section 1.</span
         >
       </p>
 
