@@ -15,7 +15,7 @@
     <main>
       <p><a href="./">← DuckMess</a></p>
       <h1>Chính sách bảo mật <span class="en">/ Privacy Policy</span></h1>
-      <p class="small">Cập nhật / Last updated: 29/10/2026</p>
+      <p class="small">Cập nhật / Last updated: 30/10/2026</p>
 
       <h2>
         1. Dữ liệu chúng tôi xử lý <span class="en">/ Data we handle</span>
@@ -60,6 +60,13 @@
           liệu, người bên kia không thấy IP của bạn. Tín hiệu bắt đầu cuộc gọi
           đi qua máy chủ DuckMess như tin nhắn.
         </li>
+        <li>
+          <b>Báo cáo vi phạm:</b> khi bạn bấm Báo cáo, máy bạn gửi cho quản trị
+          viên máy chủ nội dung tin bị báo cáo, tên và khóa của hai bên, lý do
+          bạn chọn — được mã hóa sao cho chỉ quản trị viên mở được. Máy chủ chỉ
+          biết bạn đã gửi một báo cáo, lúc nào và dung lượng, không biết bạn báo
+          cáo ai. Người bị báo cáo không được báo.
+        </li>
       </ul>
       <p class="en">
         Message and file contents are end-to-end encrypted on the sender's
@@ -76,7 +83,12 @@
         devices and are encrypted; STUN servers of Cloudflare and Google and the
         other party see your IP address. With "Hide IP" (when enabled on the
         server) calls go through Cloudflare TURN, which sees your IP, call time
-        and data volume, while the other party does not.
+        and data volume, while the other party does not. When you report a
+        message, your device sends the reported content, both parties' names
+        and keys and your chosen reason to the server administrators, encrypted
+        so only they can open it; the server only knows that you sent a report,
+        when, and its size — not whom you reported. The reported person is not
+        notified.
       </p>
 
       <h2>2. Google Drive <span class="en">/ Google user data</span></h2>
@@ -128,14 +140,16 @@
         Tin nhắn chờ chỉ nằm trên máy chủ cho tới khi được giao. Bản sao lưu
         lịch sử cũ bị xóa khi có bản mới thay; danh sách chặn bị xóa khi bạn bỏ
         chặn. Khi bạn bị xóa khỏi máy chủ, bản sao lưu và danh sách chặn của bạn
-        bị xóa theo.<br />
+        bị xóa theo. Báo cáo vi phạm bị xóa khi quản trị viên đánh dấu đã xử
+        lý, và chậm nhất sau 90 ngày.<br />
         <span class="en"
           >Attachments are kept until the sender or recipient chooses "delete
           for both"; the encrypted copy is then permanently deleted from the
           server and Google Drive. Queued messages stay on the server only until
           delivered. Older history backups are deleted once replaced; block
           entries are deleted when you unblock. When your membership is removed,
-          your backups and block list are deleted too.</span
+          your backups and block list are deleted too. Reports are deleted when
+          an administrator marks them handled, and after 90 days at most.</span
         >
       </p>
 
