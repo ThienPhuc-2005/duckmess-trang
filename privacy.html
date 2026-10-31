@@ -15,7 +15,7 @@
     <main>
       <p><a href="./">← DuckMess</a></p>
       <h1>Chính sách bảo mật <span class="en">/ Privacy Policy</span></h1>
-      <p class="small">Cập nhật / Last updated: 30/10/2026</p>
+      <p class="small">Cập nhật / Last updated: 31/10/2026</p>
 
       <h2>
         1. Dữ liệu chúng tôi xử lý <span class="en">/ Data we handle</span>
@@ -24,7 +24,18 @@
         <li>
           <b>Nội dung tin nhắn và tệp:</b> được mã hóa đầu-cuối trên máy người
           gửi. Máy chủ chỉ lưu và chuyển tiếp bản đã mã hóa, không có khóa giải
-          mã, không đọc được nội dung hay tên tệp.
+          mã, không đọc được nội dung hay tên tệp. Ngoại lệ duy nhất là Kho nhạc
+          đang mở, xem ngay dưới đây.
+        </li>
+        <li>
+          <b>Kho nhạc:</b> mỗi người có một kho nhạc riêng; kho mới mở sẵn cho
+          mọi thành viên của máy chủ cùng nghe. Khi kho mở, máy bạn gửi khóa kho
+          lên máy chủ để phát cho các thành viên. Máy chủ giữ khóa này, nên chủ
+          máy chủ và mọi thành viên đọc được tên bài, tên ca sĩ và mở được nhạc
+          trong kho. Google Drive của chủ máy chủ vẫn chỉ giữ tệp đã mã hóa. Bạn
+          chuyển kho sang "Chỉ mình tôi" thì máy chủ xóa khóa, app đổi khóa mới
+          và kho trở lại mã hóa đầu-cuối. Tin nhắn và tệp gửi trong chat không
+          thuộc phần này.
         </li>
         <li>
           <b>Thông tin tài khoản:</b> khóa công khai, tên hiển thị, tên người
@@ -71,24 +82,32 @@
       <p class="en">
         Message and file contents are end-to-end encrypted on the sender's
         device; the server stores and relays only ciphertext and cannot read
-        contents or file names. The server keeps public keys, display names,
-        chosen usernames, group roles and timestamps to deliver messages. IP
-        addresses are used transiently for anti-abuse rate limiting and are not
-        stored long-term. The server knows whether a message has been delivered,
-        and stores your block list and whether you hide your online status. If
-        you have set up key backup, your chat history is encrypted on your
-        device before upload; the server and the owner's Google Drive keep at
-        most two encrypted copies, and the server knows which backup is yours
-        and its approximate size. Voice and video calls go directly between
-        devices and are encrypted; STUN servers of Cloudflare and Google and the
-        other party see your IP address. With "Hide IP" (when enabled on the
-        server) calls go through Cloudflare TURN, which sees your IP, call time
-        and data volume, while the other party does not. When you report a
-        message, your device sends the reported content, both parties' names
-        and keys and your chosen reason to the server administrators, encrypted
-        so only they can open it; the server only knows that you sent a report,
-        when, and its size — not whom you reported. The reported person is not
-        notified.
+        contents or file names. The only exception is an open Music Library:
+        each person has their own library, and new libraries are open to all
+        server members by default. While a library is open, your device sends
+        its key to the server so members can receive it; the server keeps that
+        key, so the server owner and all members can read song titles and
+        artists and play the music in it. The owner's Google Drive still holds
+        only encrypted files. Switching a library to "Only me" deletes the key
+        from the server, the app replaces the key and the library returns to
+        end-to-end encryption. Chat messages and chat attachments are not part
+        of this. The server keeps public keys, display names, chosen usernames,
+        group roles and timestamps to deliver messages. IP addresses are used
+        transiently for anti-abuse rate limiting and are not stored long-term.
+        The server knows whether a message has been delivered, and stores your
+        block list and whether you hide your online status. If you have set up
+        key backup, your chat history is encrypted on your device before upload;
+        the server and the owner's Google Drive keep at most two encrypted
+        copies, and the server knows which backup is yours and its approximate
+        size. Voice and video calls go directly between devices and are
+        encrypted; STUN servers of Cloudflare and Google and the other party see
+        your IP address. With "Hide IP" (when enabled on the server) calls go
+        through Cloudflare TURN, which sees your IP, call time and data volume,
+        while the other party does not. When you report a message, your device
+        sends the reported content, both parties' names and keys and your chosen
+        reason to the server administrators, encrypted so only they can open it;
+        the server only knows that you sent a report, when, and its size — not
+        whom you reported. The reported person is not notified.
       </p>
 
       <h2>2. Google Drive <span class="en">/ Google user data</span></h2>
@@ -140,8 +159,9 @@
         Tin nhắn chờ chỉ nằm trên máy chủ cho tới khi được giao. Bản sao lưu
         lịch sử cũ bị xóa khi có bản mới thay; danh sách chặn bị xóa khi bạn bỏ
         chặn. Khi bạn bị xóa khỏi máy chủ, bản sao lưu và danh sách chặn của bạn
-        bị xóa theo. Báo cáo vi phạm bị xóa khi quản trị viên đánh dấu đã xử
-        lý, và chậm nhất sau 90 ngày.<br />
+        bị xóa theo. Báo cáo vi phạm bị xóa khi quản trị viên đánh dấu đã xử lý,
+        và chậm nhất sau 90 ngày. Khóa của Kho nhạc mở bị xóa khỏi máy chủ khi
+        bạn chuyển kho sang "Chỉ mình tôi" hoặc xóa kho.<br />
         <span class="en"
           >Attachments are kept until the sender or recipient chooses "delete
           for both"; the encrypted copy is then permanently deleted from the
@@ -149,7 +169,9 @@
           delivered. Older history backups are deleted once replaced; block
           entries are deleted when you unblock. When your membership is removed,
           your backups and block list are deleted too. Reports are deleted when
-          an administrator marks them handled, and after 90 days at most.</span
+          an administrator marks them handled, and after 90 days at most. The
+          key of an open Music Library is deleted from the server when you
+          switch it to "Only me" or delete the library.</span
         >
       </p>
 
